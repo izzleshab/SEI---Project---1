@@ -54,10 +54,13 @@ function init() {
 
   function draw(grid){
     snakeBody.forEach(segment => {
-      const snakeElement = document.createElement('div')
-      snakeElement.style.gridRowStart = segment.x
-      snakeElement.classList.add('snake')
-      document.querySelector(segment.x)
+      // const snakeElement = document.createElement('div')
+      // snakeElement.style.gridRowStart = segment.x
+      // snakeElement.classList.add('snake')
+      // document.querySelector('[data-index="' + segment.x + '"]').classList.add('snake')
+      let snakeCell = document.querySelector('[data-index="' + segment.x + '"]')
+      snakeCell.innerHTML = 'X'
+      snakeCell.
     })
   }
 
