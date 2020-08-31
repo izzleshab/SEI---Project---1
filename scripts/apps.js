@@ -15,9 +15,9 @@ function init() {
   // * Game Elements
   let lastRenderTime = 0
   const snakeSpeed = 2
-  const snakeBody = [{ x: 100 }]
+  const snakeBody = [{ x: 100 }, { x: 101 }, { x: 102 }, { x: 103 }, { x: 104 }]
   let direction = ''
-  let oldSnakeBody
+  let oldSnakeBody = NaN
 
 
   // * EXECUTABLES (Functions) 
@@ -52,44 +52,39 @@ function init() {
 
   
   function update(){
-    
-    if (direction === 'up'){
+
+    if (direction === 'up' || direction === 'down' || direction === 'left' || direction === 'right'){
       oldSnakeBody = snakeBody[0].x
       snakeBody.shift()
+    }
+    if (direction === 'up'){
       if (snakeBody.length > 0){
-        snakeBody.push({x: snakeBody[snakeBody.length-1] - width})
+        snakeBody.push({x: snakeBody[snakeBody.length-1].x - width})
       } else {
         snakeBody.push({x: oldSnakeBody - width})
       }
     }
     if (direction === 'down'){
-      oldSnakeBody = snakeBody[0].x
-      snakeBody.shift()
       if (snakeBody.length > 0){
-        snakeBody.push({x: snakeBody[snakeBody.length-1] + width})
+        snakeBody.push({x: snakeBody[snakeBody.length-1].x + width})
       } else {
         snakeBody.push({x: oldSnakeBody + width})
       }
     }
     if (direction === 'left'){
-      oldSnakeBody = snakeBody[0].x
-      snakeBody.shift()
       if (snakeBody.length > 0){
-        snakeBody.push({x: snakeBody[snakeBody.length-1] - 1})
+        snakeBody.push({x: snakeBody[snakeBody.length-1].x - 1})
       } else {
         snakeBody.push({x: oldSnakeBody - 1})
       }
     }
     if (direction === 'right'){
-      oldSnakeBody = snakeBody[0].x
-      snakeBody.shift()
       if (snakeBody.length > 0){
-        snakeBody.push({x: snakeBody[snakeBody.length-1] + 1})
+        snakeBody.push({x: snakeBody[snakeBody.length-1].x + 1})
       } else {
         snakeBody.push({x: oldSnakeBody + 1})
       }
     }
-    
   }
 
   
@@ -102,8 +97,16 @@ function init() {
       // snakeElement.classList.add('snake')
       // document.querySelector('[data-index="' + segment.x + '"]').classList.add('snake')
       let snakeCell = document.querySelector('[data-index="' + segment.x + '"]')
-      snakeCell.innerHTML = 'X'
-    })
+      if (snakeCell !== null){
+        snakeCell.innerHTML = 'X'
+      }
+    }) 
+    if (oldSnakeBody !== NaN) {
+      let oldSnakeCell = document.querySelector('[data-index="' + oldSnakeBody + '"]')
+      if (oldSnakeCell !== null){
+        oldSnakeCell.innerHTML = ''
+      }
+    }
   }
 
 
