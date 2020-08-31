@@ -39,3 +39,13 @@ body {
   width: 5%;
   background-color: white;
 }
+
+.snake {
+  background-color: lightseagreen;
+  border: 1px solid black;
+}
+
+.food {
+  background-color: yellow;
+  border: 1px solid black;
+}

@@ -12,7 +12,11 @@ function init() {
   const gridCellCount = width * width
   const cells = []
 
-
+  // * Game Elements
+  let lastRenderTime = 0
+  const snakeSpeed = 2
+  const snakeBody = [{ x: 100 }]
+  
 
 
 
@@ -29,7 +33,35 @@ function init() {
   }
   createGrid()
 
+  function main(currentTime) {
+    window.requestAnimationFrame(main)
+    const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000
+    if (secondsSinceLastRender < 1 / snakeSpeed) return
+    
+    lastRenderTime = currentTime
+    
+    update()
+    draw(grid)
+  }
+  window.requestAnimationFrame(main)
 
+
+  function update(){
+  }
+
+  
+  
+
+  function draw(grid){
+    snakeBody.forEach(segment => {
+      const snakeElement = document.createElement('div')
+      snakeElement.style.gridRowStart = segment.x
+      snakeElement.classList.add('snake')
+      document.querySelector(segment.x)
+    })
+  }
+
+  
 
 
 
