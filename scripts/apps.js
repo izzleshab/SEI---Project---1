@@ -83,8 +83,13 @@ function init() {
 
   function updateMovement() {
     if (direction === 'up' || direction === 'down' || direction === 'left' || direction === 'right'){
-      oldSnakeBody = snakeBody[0].x
-      snakeBody.shift()
+      if (snakeGrow === true) {
+        oldSnakeBody = NaN
+        snakeGrow = false  
+      } else { 
+        oldSnakeBody = snakeBody[0].x
+        snakeBody.shift()
+      }
     }
     if (direction === 'up'){
       if (snakeBody.length > 0){
