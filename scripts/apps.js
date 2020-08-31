@@ -14,11 +14,13 @@ function init() {
 
   // * Game Elements
   let lastRenderTime = 0
-  const snakeSpeed = 4
-  const snakeBody = [{ x: 100 }, { x: 101 }, { x: 102 }, { x: 103 }, { x: 104 }, { x: 105 }, { x: 106 }, { x: 107 }]
+  let snakeSpeed = 2
+  const snakeBody = [{ x: 100 }, { x: 101 }, { x: 102 }]
   let direction = ''
   let oldSnakeBody = NaN
   let gameEnd = false
+  let foodObject = -1
+  let snakeGrow = false 
 
 
   // * EXECUTABLES (Functions) 
@@ -36,7 +38,8 @@ function init() {
   // * INVOKING FUNCTIONS HERE
   createGrid()
   checkKey()
-
+  generateFoodPosition()
+  console.log('food object', foodObject)
 
 
 
@@ -44,9 +47,7 @@ function init() {
     window.requestAnimationFrame(main)
     const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000
     if (secondsSinceLastRender < 1 / snakeSpeed) return
-    
     lastRenderTime = currentTime
-    
     update()
     draw()
   }
@@ -56,6 +57,7 @@ function init() {
     updateMovement()
     wallCollision()
     selfCollision()
+    foodInGameCollision()
   }
 
   function draw(){
@@ -71,6 +73,10 @@ function init() {
         if (oldSnakeCell !== null){
           oldSnakeCell.innerHTML = ''
         }
+      }
+      if (foodObject !== -1) {
+        let foodCell = document.querySelector('[data-index="' + foodObject + '"]')
+        foodCell.innerHTML = 'O'
       }
     }
   }
@@ -138,11 +144,36 @@ function init() {
     }
   }
 
-
-  function foodCollision(){
-
+  function generateFoodPosition() {
+    while (foodCollision() === true || foodObject === -1) {
+      foodObject = Math.floor(Math.random() * (width * width))
+    }
   }
 
+
+  function foodCollision(){
+    let collision = false
+    snakeBody.forEach(segment => {
+      if (segment.x === foodObject) {
+        collision = true
+      }
+    })
+    return collision
+  }
+
+  function foodInGameCollision() {
+    if (foodCollision() === true) {
+      // Point + 1 
+      console.log('got here')
+      // increase snake speed
+      snakeSpeed = snakeSpeed + 2
+      // increase snake size
+      snakeGrow = true 
+      // randomise new food position
+      generateFoodPosition()
+      
+    }
+  }
 
   function getHead() {
     return snakeBody[snakeBody.length-1].x
