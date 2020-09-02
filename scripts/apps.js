@@ -145,7 +145,7 @@ function init() {
     if (direction === 'left' && getHead() % width === (width - 1)) { // As width is 20, when head is at the far right (19), the next square it fills is the first one on the far left (20). So, when the head reaches position (19), collision must be detected when (20 - 1) is fulfilled, thus, the head will collide at position (19, 39, 59 etc) as any far left position (20 - 1, 40 -1, 60 - 1) will always return a collision at 19 when a multiple of 20 (20, 40, 60) has 1 square subtracted from it.
       gameEnd = true
     }
-    if (getHead() === -1){
+    if (getHead() === -1){// Fixed a bug where the snake would pass through the top left square as its' value was (-1) and not (19) bypassing the modulus.
       gameEnd = true
     }
     // right
@@ -157,20 +157,22 @@ function init() {
       gameEnd = true
     }
     // top
+    // If getHead is <0 a wall has been hit and the game ends.
     if (direction === 'up' && getHead() < 0 ) {
       gameEnd = true
     }
-    // bottom
+    // bottom 
+    // If the value of getHead >= 400, a wall has been hit and the game ends.
     if (direction === 'down' && getHead() >= (width * width)) {
       gameEnd = true
     }
   }
 
-  function selfCollision(){
+  function selfCollision(){ // X is snake position, for loop goes through every part of the snake, checking if any part of the snake is equal to the head but not if head is equal to head.
     for (let i = 0; i < snakeBody.length; i++) {
-      if (i === snakeBody.length - 1)
+      if (i === snakeBody.length - 1) // Checks if i value is equal to head. 
         return 
-      else if (snakeBody[i].x === getHead())
+      else if (snakeBody[i].x === getHead()) // Checks if snakeBody is equal to head value.
         gameEnd = true
     }
   }
