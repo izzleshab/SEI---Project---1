@@ -28,6 +28,7 @@ function init() {
   createGrid()
   checkKey()
   generateFoodPosition()
+  stopScroll()
   
   
   // * EXECUTABLES (Functions) 
@@ -64,18 +65,18 @@ function init() {
       snakeBody.forEach(segment => {
         let snakeCell = document.querySelector('[data-index="' + segment.x + '"]')
         if (snakeCell !== null){
-          snakeCell.innerHTML = 'X'
+          snakeCell.style.backgroundColor = 'green'
         }
       }) 
       if (oldSnakeBody !== NaN) {
         let oldSnakeCell = document.querySelector('[data-index="' + oldSnakeBody + '"]')
         if (oldSnakeCell !== null){
-          oldSnakeCell.innerHTML = ''
+          oldSnakeCell.style.backgroundColor = 'black'
         }
       }
       if (foodObject !== -1) {
         let foodCell = document.querySelector('[data-index="' + foodObject + '"]')
-        foodCell.innerHTML = 'O'
+        foodCell.style.backgroundColor = 'yellow'
       }
     }
   }
@@ -177,6 +178,10 @@ function init() {
       generateFoodPosition()
       
     }
+  }
+
+  function stopScroll() {
+    window.scrollTo(0, 0)
   }
 
   function getHead() {
