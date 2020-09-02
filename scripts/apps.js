@@ -3,8 +3,7 @@ function init() {
 
   // * Header Elements
   const grid = document.querySelector('.grid')
-  const start = document.querySelector('#start')
-  const score = document.querySelector('#score')
+  let score = document.querySelector('#score')
   
 
   // * Grid Elements
@@ -14,7 +13,7 @@ function init() {
 
   // * Game Elements
   let lastRenderTime = 0
-  let snakeSpeed = 2
+  let snakeSpeed = 10
   const snakeBody = [{ x: 100 }, { x: 101 }, { x: 102 }]
   let direction = ''
   let oldSnakeBody = NaN
@@ -23,6 +22,14 @@ function init() {
   let snakeGrow = false 
 
 
+  
+  
+  // * INVOKING FUNCTIONS HERE
+  createGrid()
+  checkKey()
+  generateFoodPosition()
+  
+  
   // * EXECUTABLES (Functions) 
 
 
@@ -35,14 +42,6 @@ function init() {
     }
   }
   
-  // * INVOKING FUNCTIONS HERE
-  createGrid()
-  checkKey()
-  generateFoodPosition()
-  console.log('food object', foodObject)
-
-
-
   function main(currentTime) {
     window.requestAnimationFrame(main)
     const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000
@@ -169,9 +168,9 @@ function init() {
   function foodInGameCollision() {
     if (foodCollision() === true) {
       // Point + 1 
-      console.log('got here')
+      score.innerHTML++
       // increase snake speed
-      snakeSpeed = snakeSpeed + 2
+      snakeSpeed = snakeSpeed + 1
       // increase snake size
       snakeGrow = true 
       // randomise new food position
