@@ -90,7 +90,7 @@ function init() {
       }
       if (foodObject !== -1) { //Should never be -1 unless update() cannot find a suitable location to draw food.
         const foodCell = document.querySelector('[data-index="' + foodObject + '"]')
-        foodCell.style.backgroundColor = 'yellow'
+        foodCell.style.backgroundColor = 'orange'
       } 
     } else {
       // End game screen PH
@@ -141,10 +141,18 @@ function init() {
 
   function wallCollision(){ // Checks if we hit a wall.
     // left 
+    //If the head position is at the FAR right (19) after moving left - the head has collided with a wall in its movement
     if (direction === 'left' && getHead() % width === (width - 1)) { // As width is 20, when head is at the far right (19), the next square it fills is the first one on the far left (20). So, when the head reaches position (19), collision must be detected when (20 - 1) is fulfilled, thus, the head will collide at position (19, 39, 59 etc) as any far left position (20 - 1, 40 -1, 60 - 1) will always return a collision at 19 when a multiple of 20 (20, 40, 60) has 1 square subtracted from it.
       gameEnd = true
     }
+    if (getHead() === -1){
+      gameEnd = true
+    }
     // right
+    // If the head position is at the FAR left (0) after moving right - the head has collided with a wall in its movement
+    // to determine far left, you modulus the width with remainder of 0
+    // to determine far right you modulus the width with remainder of the width minus 1
+    // in our case this would be 19
     if (direction === 'right' && getHead() % width === 0) {
       gameEnd = true
     }
@@ -153,7 +161,7 @@ function init() {
       gameEnd = true
     }
     // bottom
-    if (direction === 'down' && getHead() > (width * width)) {
+    if (direction === 'down' && getHead() >= (width * width)) {
       gameEnd = true
     }
   }
