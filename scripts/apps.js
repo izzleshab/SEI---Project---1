@@ -2,17 +2,17 @@ function init() {
   // * ELEMENTS (Variables)(Elements which are displayed in the DOM)
 
   // * Header Elements
-  const grid = document.querySelector('.grid')
-  let score = document.querySelector('#score')
+  const grid = document.querySelector('.grid') // Calls grid div from HTML
+  let score = document.querySelector('#score') // Calls score id from HTML
   
 
   // * Grid Elements
-  const width = 20
+  const width = 20 
   const gridCellCount = width * width
   const cells = []
 
   // * Game Elements
-  let lastRenderTime = 0
+  let lastRenderTime = 0 // 
   let snakeSpeed = 10
   const snakeBody = [{ x: 100 }, { x: 101 }, { x: 102 }]
   let direction = ''
@@ -33,6 +33,16 @@ function init() {
   
   // * EXECUTABLES (Functions) 
 
+  // Function which creates the grid or 'gameboard' for the game. 
+  // Used example from Whack 'em all tutorial - could be improved in future by using a 2-d array, where a row + column are defined within a for loop.
+  //columns = 20
+  // rows = 20
+  // for (let i=0; i<columns; i++){
+  //     for (let j=0; j<rows; j++){
+  //         //add new cell div at poisition i,j
+  //     }
+  // }
+  // grid = [column, row]
 
   function createGrid() {
     for (let i = 0; i < gridCellCount; i++) {
@@ -43,16 +53,18 @@ function init() {
     }
   }
   
+  // Main game loop, contains the infinite refresh loop for the game, the speed for the snake, the update function and the draw function for the game. Found from Web Dev Simplified youtube video. 
   function main(currentTime) {
-    window.requestAnimationFrame(main)
-    const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000
+    window.requestAnimationFrame(main) // lines 58-65 could also be a while loop (set interval).
+    const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000 // 59 + 60 are responsible for the draw speed and snake speed of the game.
     if (secondsSinceLastRender < 1 / snakeSpeed) return
-    lastRenderTime = currentTime
+    lastRenderTime = currentTime 
     update()
-    draw()
+    draw() 
   }
   window.requestAnimationFrame(main)
 
+  // Every game update is controlled by this function - updates the snakes position, food position, checks for collisions and checks for game end state. This is the heart and soul of the game.
   function update(){
     updateMovement()
     wallCollision()
@@ -60,27 +72,30 @@ function init() {
     foodInGameCollision()
   }
 
+
+  // The job of the draw function is explicitly to draw the contents of the function. Draw functions should not contain any game logic. 
   function draw(){
-    if (gameEnd === false) {
+    if (gameEnd === false) { 
       snakeBody.forEach(segment => {
         let snakeCell = document.querySelector('[data-index="' + segment.x + '"]')
-        if (snakeCell !== null){
-          snakeCell.style.backgroundColor = 'green'
-        }
+        snakeCell.style.backgroundColor = 'green'
       }) 
       if (oldSnakeBody !== NaN) {
         let oldSnakeCell = document.querySelector('[data-index="' + oldSnakeBody + '"]')
-        if (oldSnakeCell !== null){
+        if (oldSnakeCell !== null) {
           oldSnakeCell.style.backgroundColor = 'black'
         }
       }
       if (foodObject !== -1) {
         let foodCell = document.querySelector('[data-index="' + foodObject + '"]')
         foodCell.style.backgroundColor = 'yellow'
-      }
+      } 
+    } else {
+      // End game screen
     }
   }
 
+  // 
   function updateMovement() {
     if (direction === 'up' || direction === 'down' || direction === 'left' || direction === 'right'){
       if (snakeGrow === true) {
