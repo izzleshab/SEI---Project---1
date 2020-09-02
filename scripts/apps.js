@@ -7,8 +7,8 @@ function init() {
   
 
   // * Grid Elements
-  const width = 20 
-  const gridCellCount = width * width
+  const width = 20 // This is actually width and height - kept naming convention consistent with the whack 'em all tutorial.
+  const gridCellCount = width * width // This is actually width * height.
   const cells = []
 
   // * Game Elements
@@ -26,9 +26,9 @@ function init() {
   
   // * INVOKING FUNCTIONS HERE
   createGrid()
-  checkKey()
+  checkKey() // Event that listens for keypress on arrow keys.
   generateFoodPosition()
-  stopScroll()
+
   
   
   // * EXECUTABLES (Functions) 
@@ -65,11 +65,11 @@ function init() {
   window.requestAnimationFrame(main)
 
   // Every game update is controlled by this function - updates the snakes position, food position, checks for collisions and checks for game end state. This is the heart and soul of the game.
-  function update(){
+  function update(){ // We need to update the movement before we do collision checks. 
     updateMovement()
-    wallCollision()
-    selfCollision()
-    foodInGameCollision()
+    wallCollision() // Checks if we hit a wall. 
+    selfCollision() // Checks if the snake hits itself. 
+    foodInGameCollision() // Checks if the snake hits food.
   }
 
 
@@ -77,68 +77,71 @@ function init() {
   function draw(){
     if (gameEnd === false) { 
       snakeBody.forEach(segment => {
-        let snakeCell = document.querySelector('[data-index="' + segment.x + '"]')
-        snakeCell.style.backgroundColor = 'green'
+        const snakeCell = document.querySelector('[data-index="' + segment.x + '"]')
+        if (snakeCell !== null) {
+          snakeCell.style.backgroundColor = 'green'
+        }
       }) 
-      if (oldSnakeBody !== NaN) {
-        let oldSnakeCell = document.querySelector('[data-index="' + oldSnakeBody + '"]')
-        if (oldSnakeCell !== null) {
+      if (oldSnakeBody !== NaN) { // prevents blacking out grid elements before snake starts moving.
+        const oldSnakeCell = document.querySelector('[data-index="' + oldSnakeBody + '"]')
+        if (oldSnakeCell !== null) { //This fixed a bug where the food disappeared.
           oldSnakeCell.style.backgroundColor = 'black'
         }
       }
-      if (foodObject !== -1) {
-        let foodCell = document.querySelector('[data-index="' + foodObject + '"]')
+      if (foodObject !== -1) { //Should never be -1 unless update() cannot find a suitable location to draw food.
+        const foodCell = document.querySelector('[data-index="' + foodObject + '"]')
         foodCell.style.backgroundColor = 'yellow'
       } 
     } else {
-      // End game screen
+      // End game screen PH
     }
   }
 
-  // 
-  function updateMovement() {
-    if (direction === 'up' || direction === 'down' || direction === 'left' || direction === 'right'){
-      if (snakeGrow === true) {
+  // Uses checkKey() direction to move the snakeBody. 
+  // Removes the first element of the array and shifts it to the last element of the array with updated direction/movement.
+  function updateMovement() { 
+    if (direction === 'up' || direction === 'down' || direction === 'left' || direction === 'right'){ // If any movement is happening: -
+      if (snakeGrow === true) { // If the snake is growing - we do not want to remove the tail. 
         oldSnakeBody = NaN
         snakeGrow = false  
-      } else { 
-        oldSnakeBody = snakeBody[0].x
+      } else { // Otherwise, remove the tail. 
+        oldSnakeBody = snakeBody[0].x // Keep track of the old position, to recolour the tail. 
         snakeBody.shift()
       }
     }
     if (direction === 'up'){
-      if (snakeBody.length > 0){
-        snakeBody.push({x: getHead() - width})
+      if (snakeBody.length > 0){ // If the default snake size was 1, and tail removed, use oldSnakeBody for head and its' movement.
+        snakeBody.push({ x: getHead() - width }) // - width used here for up direction, as width is 20, -20 is one row division upwards.
       } else {
-        snakeBody.push({x: oldSnakeBody - width})
+        snakeBody.push({ x: oldSnakeBody - width })
       }
     }
     if (direction === 'down'){
-      if (snakeBody.length > 0){
-        snakeBody.push({x: getHead() + width})
+      if (snakeBody.length > 0){ 
+        snakeBody.push({ x: getHead() + width }) // + width used here for down direction, as width is 20, +20 is one row division downwards.
       } else {
-        snakeBody.push({x: oldSnakeBody + width})
+        snakeBody.push({ x: oldSnakeBody + width })
       }
     }
     if (direction === 'left'){
       if (snakeBody.length > 0){
-        snakeBody.push({x: getHead() - 1})
+        snakeBody.push({ x: getHead() - 1 }) // Divs are labelled '1, 2, 3' etc, so -1 moves snake in the negative direction (left).
       } else {
-        snakeBody.push({x: oldSnakeBody - 1})
+        snakeBody.push({ x: oldSnakeBody - 1 })
       }
     }
     if (direction === 'right'){
       if (snakeBody.length > 0){
-        snakeBody.push({x: getHead() + 1})
+        snakeBody.push({ x: getHead() + 1 }) // +1 moves snakes in the positive direction (right).
       } else {
-        snakeBody.push({x: oldSnakeBody + 1})
+        snakeBody.push({ x: oldSnakeBody + 1 })
       }
     }
   }
 
-  function wallCollision(){
+  function wallCollision(){ // Checks if we hit a wall.
     // left 
-    if (direction === 'left' && getHead() % width === (width - 1)) {
+    if (direction === 'left' && getHead() % width === (width - 1)) { // As width is 20, when head is at the far right (19), the next square it fills is the first one on the far left (20). So, when the head reaches position (19), collision must be detected when (20 - 1) is fulfilled, thus, the head will collide at position (19, 39, 59 etc) as any far left position (20 - 1, 40 -1, 60 - 1) will always return a collision at 19 when a multiple of 20 (20, 40, 60) has 1 square subtracted from it.
       gameEnd = true
     }
     // right
@@ -195,12 +198,8 @@ function init() {
     }
   }
 
-  function stopScroll() {
-    window.scrollTo(0, 0)
-  }
-
   function getHead() {
-    return snakeBody[snakeBody.length-1].x
+    return snakeBody[snakeBody.length-1].x // Returns current cell number for the snake head.
   }
 
   // * EVENTS (Event listeners)
