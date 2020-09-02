@@ -45,12 +45,6 @@ body {
   background-color: black;
 }
 
-.snake {
-  background-color: lightseagreen;
-  border: 1px solid black;
-}
-
-.food {
-  background-color: yellow;
-  border: 1px solid black;
+button {
+  background-color: black;
 }

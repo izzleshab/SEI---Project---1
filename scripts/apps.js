@@ -3,8 +3,11 @@ function init() {
 
   // * Header Elements
   const grid = document.querySelector('.grid') // Calls grid div from HTML
-  let score = document.querySelector('#score') // Calls score id from HTML
-  
+  const score = document.querySelector('.score') // Calls score id from HTML
+  const header = document.querySelector('.header-score')
+  header.innerHTML = 'Your Score = ' // Current Score
+  const playAgain = document.querySelector('.play-again')
+  playAgain.style.display = 'none' // Hides the button until game over
 
   // * Grid Elements
   const width = 20 // This is actually width and height - kept naming convention consistent with the whack 'em all tutorial.
@@ -59,8 +62,13 @@ function init() {
     const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000 // 59 + 60 are responsible for the draw speed and snake speed of the game.
     if (secondsSinceLastRender < 1 / snakeSpeed) return
     lastRenderTime = currentTime 
-    update()
-    draw() 
+    if (gameEnd === false) {
+      update()
+      draw() 
+    } else {
+      playAgain.style.display = 'block'
+      header.innerHTML = 'GAME OVER! YOUR SCORE IS: '
+    }
   }
   window.requestAnimationFrame(main)
 
@@ -74,8 +82,8 @@ function init() {
 
 
   // The job of the draw function is explicitly to draw the contents of the function. Draw functions should not contain any game logic. 
-  function draw(){
-    if (gameEnd === false) { 
+  function draw(){ 
+    if (gameEnd === false) {
       snakeBody.forEach(segment => {
         const snakeCell = document.querySelector('[data-index="' + segment.x + '"]')
         if (snakeCell !== null) {
@@ -92,9 +100,7 @@ function init() {
         const foodCell = document.querySelector('[data-index="' + foodObject + '"]')
         foodCell.style.backgroundColor = 'orange'
       } 
-    } else {
-      // End game screen PH
-    }
+    } 
   }
 
   // Uses checkKey() direction to move the snakeBody. 
@@ -177,14 +183,15 @@ function init() {
     }
   }
 
+  // This method is used both at the starting initialisation and during the game. 
   function generateFoodPosition() {
-    while (foodCollision() === true || foodObject === -1) {
-      foodObject = Math.floor(Math.random() * (width * width))
+    while (foodCollision() === true || foodObject === -1) { // While loop prevents food drawing ontop of snake. foodObject === -1 gets us into the loop for the start of the game.
+      foodObject = Math.floor(Math.random() * (width * width)) 
     }
-  }
+  } // If the food spawns on the snake, or at -1, generate a random position for the food between 0 and 400.
 
-
-  function foodCollision(){
+  // Checks if snake head is = to food position, if yes, collision is true, therefore, new food position generated.
+  function foodCollision() { 
     let collision = false
     snakeBody.forEach(segment => {
       if (segment.x === foodObject) {
@@ -194,6 +201,7 @@ function init() {
     return collision
   }
 
+  // If food collision is true, a series of events will occur.
   function foodInGameCollision() {
     if (foodCollision() === true) {
       // Point + 1 
@@ -214,6 +222,7 @@ function init() {
 
   // * EVENTS (Event listeners)
 
+  // Activates movement on key press.
   function checkKey() {
     window.addEventListener('keydown', function(e) {
       if (e.keyCode === 38){
