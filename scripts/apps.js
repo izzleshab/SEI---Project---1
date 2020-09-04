@@ -206,7 +206,7 @@ function init() {
   function foodInGameCollision() {
     if (foodCollision() === true) {
       // Plays sound on food collision
-      hitSound.src = './sounds/Hit.wav'
+      hitSound.src = '../sounds/Hit.wav'
       hitSound.play()
       // Point + 1 
       score.innerHTML++
@@ -215,7 +215,7 @@ function init() {
       // increase snake size
       snakeGrow = true 
       // randomise new food position
-      generateFoodPosition()
+      generateFoodPosition()  
     }
   }
 
