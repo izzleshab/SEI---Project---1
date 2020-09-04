@@ -5,7 +5,7 @@ function init() {
   const grid = document.querySelector('.grid') // Calls grid div from HTML
   const score = document.querySelector('.score') // Calls score id from HTML
   const header = document.querySelector('.header-score')
-  header.innerHTML = 'Your Score = ' // Current Score
+  header.innerHTML = 'CURRENT SCORE = ' // Current Score
   const playAgain = document.querySelector('.play-again')
   playAgain.style.display = 'none' // Hides the button until game over
 
@@ -23,7 +23,7 @@ function init() {
   let gameEnd = false
   let foodObject = -1
   let snakeGrow = false 
-
+  const hitSound = document.getElementById('.hit-sound')
 
   
   
@@ -67,7 +67,7 @@ function init() {
       draw() 
     } else {
       playAgain.style.display = 'block'
-      header.innerHTML = 'GAME OVER! YOUR SCORE IS: '
+      header.innerHTML = 'GAME OVER! YOUR SCORE: '
     }
   }
   window.requestAnimationFrame(main)
@@ -201,6 +201,7 @@ function init() {
     return collision
   }
 
+
   // If food collision is true, a series of events will occur.
   function foodInGameCollision() {
     if (foodCollision() === true) {
@@ -212,7 +213,6 @@ function init() {
       snakeGrow = true 
       // randomise new food position
       generateFoodPosition()
-      
     }
   }
 
