@@ -23,8 +23,8 @@ function init() {
   let gameEnd = false
   let foodObject = -1
   let snakeGrow = false 
-  const hitSound = document.getElementById('.hit-sound')
-
+  const hitSound = document.getElementById('hit-sound')
+  const playAgainSound = document.getElementById('play-again-audio')
   
   
   // * INVOKING FUNCTIONS HERE
@@ -205,6 +205,9 @@ function init() {
   // If food collision is true, a series of events will occur.
   function foodInGameCollision() {
     if (foodCollision() === true) {
+      // Plays sound on food collision
+      hitSound.src = './sounds/Hit.wav'
+      hitSound.play()
       // Point + 1 
       score.innerHTML++
       // increase snake speed
@@ -215,6 +218,8 @@ function init() {
       generateFoodPosition()
     }
   }
+
+
 
   function getHead() {
     return snakeBody[snakeBody.length-1].x // Returns current cell number for the snake head.
