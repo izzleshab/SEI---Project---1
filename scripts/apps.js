@@ -30,21 +30,8 @@ function init() {
   createGrid()
   checkKey() // Event that listens for keypress on arrow keys.
   generateFoodPosition()
-
-  
   
   // * EXECUTABLES (Functions) 
-
-  // Function which creates the grid or 'gameboard' for the game. 
-  // Used example from Whack 'em all tutorial - could be improved in future by using a 2-d array, where a row + column are defined within a for loop.
-  //columns = 20
-  // rows = 20
-  // for (let i=0; i<columns; i++){
-  //     for (let j=0; j<rows; j++){
-  //         //add new cell div at poisition i,j
-  //     }
-  // }
-  // grid = [column, row]
 
   function createGrid() {
     for (let i = 0; i < gridCellCount; i++) {
