@@ -23,7 +23,7 @@ function init() {
   let gameEnd = false
   let foodObject = -1
   let snakeGrow = false 
-  const hitSound = document.getElementById('hit-sound')
+  
   
   
   // * INVOKING FUNCTIONS HERE
@@ -89,7 +89,7 @@ function init() {
           snakeCell.style.backgroundColor = 'green'
         }
       }) 
-      if (oldSnakeBody !== NaN) { // prevents blacking out grid elements before snake starts moving.
+      if (oldSnakeBody !== isNaN) { // prevents blacking out grid elements before snake starts moving.
         const oldSnakeCell = document.querySelector('[data-index="' + oldSnakeBody + '"]')
         if (oldSnakeCell !== null) { //This fixed a bug where the food disappeared.
           oldSnakeCell.style.backgroundColor = 'black'
@@ -204,9 +204,6 @@ function init() {
   // If food collision is true, a series of events will occur.
   function foodInGameCollision() {
     if (foodCollision() === true) {
-      // Plays sound on food collision
-      hitSound.src = './Sounds/Hit.wav'
-      hitSound.play()
       // Point + 1 
       score.innerHTML++
       // increase snake speed
@@ -221,7 +218,7 @@ function init() {
 
 
   function getHead() {
-    return snakeBody[snakeBody.length-1].x // Returns current cell number for the snake head.
+    return snakeBody[snakeBody.length - 1].x // Returns current cell number for the snake head.
   }
 
   // * EVENTS (Event listeners)
