@@ -24,7 +24,6 @@ function init() {
   let foodObject = -1
   let snakeGrow = false 
   const hitSound = document.getElementById('hit-sound')
-  const playAgainSound = document.getElementById('play-again-audio')
   
   
   // * INVOKING FUNCTIONS HERE
@@ -206,7 +205,7 @@ function init() {
   function foodInGameCollision() {
     if (foodCollision() === true) {
       // Plays sound on food collision
-      hitSound.src = '../sounds/Hit.wav'
+      hitSound.src = './Sounds/Hit.wav'
       hitSound.play()
       // Point + 1 
       score.innerHTML++
