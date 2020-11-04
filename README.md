@@ -6,6 +6,8 @@
   Snake is a highly entertaining grid-based browser game. The objective is to maneuver the snake to collide with food which randomly spawns around the grid. As you collide with food, the difficulty increases where the snake grows in length and speed. Be careful not to collide with any walls or the snake itself as this will result in a game over. See how high you can score!  
   This was my first project as part of General Assembly's Software Engineering Immersive course. It was an individual project which was built in 7 days. This was the first proper game I have ever built, and my first ever experiences with Javascript, CSS and HTML. 
 
+  The game was deployed using GitHub pages, and is available to play [here](https://izzleshab.github.io/SEI---Project---1/).
+
 ## Technologies Used
 
 - HTML5
