@@ -8,6 +8,8 @@
 
   The game was deployed using GitHub pages, and is available to play [here](https://izzleshab.github.io/SEI---Project---1/).
 
+### Game Controls - Use the directional arrows to move the snake. 
+
 ## Technologies Used
 
 - HTML5
